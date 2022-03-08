@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICliente } from 'src/app/models/ICliente.models';
-
-
 import { ClienteService } from 'src/app/services/cliente/cliente.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-clientes',
@@ -12,6 +11,13 @@ import { ClienteService } from 'src/app/services/cliente/cliente.service';
 export class ClientesComponent implements OnInit {
 
   clientes: ICliente[];
+  cliente: ICliente = {
+    nombre: "",
+    apellido: "",
+    email: "",
+    saldo: 0,
+    id: ''
+  }
 
   constructor(private clientesServicio: ClienteService) { }
 
@@ -32,6 +38,17 @@ export class ClientesComponent implements OnInit {
       })
     }
     return saldoTotal;
+  }
+
+  agregar({value, valid}: {value: ICliente, valid: boolean}){
+    if (!valid) {
+      Swal.fire({
+        icon: 'error',
+        text: '¡Debe diligenciar todos los campos antes de guardar!'
+      })
+    } else {
+
+    }
   }
 
 }
