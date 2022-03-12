@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
-import { ICliente } from 'src/app/models/ICliente.models';
+import { Cliente } from 'src/app/models/ICliente.models';
 
 
 @Injectable({
@@ -9,26 +9,30 @@ import { ICliente } from 'src/app/models/ICliente.models';
 })
 export class ClienteService {
   
-  clientesColeccion:AngularFirestoreCollection<ICliente>;
-  clienteDoc: AngularFirestoreDocument<ICliente>;
-  clientes: Observable<ICliente[]>;
-  cliente: Observable<ICliente>;
+  clientesColeccion:AngularFirestoreCollection<Cliente>;
+  clienteDoc: AngularFirestoreDocument<Cliente>;
+  clientes: Observable<Cliente[]>;
+  cliente: Observable<Cliente>;
 
   constructor(private db: AngularFirestore) {
-    this.clientesColeccion = db.collection('clientes', referencia => referencia.orderBy('nombre', 'asc'));
+    this.clientesColeccion = db.collection('clientes', ref => ref.orderBy('nombre', 'asc'));
 
   }
 
-  getClientes():Observable<ICliente[]> {
+  getClientes():Observable<Cliente[]> {
     this.clientes = this.clientesColeccion.snapshotChanges().pipe(
-      map(data => {
-        return data.map( accion => {
-          const datos = accion.payload.doc.data() as ICliente;
+      map(cambios => {
+        return cambios.map( accion => {
+          const datos = accion.payload.doc.data() as Cliente;
           datos.id = accion.payload.doc.id;
           return datos;
         })
       })
     );
     return this.clientes;
+  }
+
+  agregarCliente(cliente: Cliente){
+    this.clientesColeccion.add(cliente);
   }
 }
