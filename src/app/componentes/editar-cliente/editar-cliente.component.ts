@@ -38,7 +38,15 @@ export class EditarClienteComponent implements OnInit {
       });
     } else {
       value.id = this.id;
-      this.clientesServicio.modificar(value);
+      this.clientesServicio.modificarCliente(value);
+      this.router.navigate(['/']);
+    }
+  }
+
+  eliminar(){
+    let mensaje = confirm('¿Seguro que desea eliminar el cliente?');
+    if(mensaje){
+      this.clientesServicio.eliminarCliente(this.cliente);
       this.router.navigate(['/']);
     }
   }

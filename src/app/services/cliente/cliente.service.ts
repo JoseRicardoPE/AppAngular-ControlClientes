@@ -8,7 +8,7 @@ import { Cliente } from 'src/app/models/ICliente.models';
   providedIn: 'root'
 })
 export class ClienteService {
-  
+    
   clientesColeccion:AngularFirestoreCollection<Cliente>;
   clienteDoc: AngularFirestoreDocument<Cliente>;
   clientes: Observable<Cliente[]>;
@@ -16,7 +16,6 @@ export class ClienteService {
 
   constructor(private db: AngularFirestore) {
     this.clientesColeccion = db.collection('clientes', ref => ref.orderBy('nombre', 'asc'));
-
   }
 
   getClientes():Observable<Cliente[]> {
@@ -37,7 +36,7 @@ export class ClienteService {
   }
 
   getCliente(id: string){
-    this.clienteDoc = this.db.doc<Cliente>(`clientes/${id}`);
+    this.clienteDoc = this.db.doc<Cliente>(`clientes/`+id);
     this.cliente = this.clienteDoc.snapshotChanges().pipe(
       map( accion => {
         if(accion.payload.exists === false){
@@ -52,11 +51,16 @@ export class ClienteService {
     return this.cliente;
   }
 
-  modificar(cliente: Cliente) {
-    this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+  modificarCliente(cliente: Cliente) {
+    this.clienteDoc = this.db.doc<Cliente>(`clientes/`+cliente.id);
     this.clienteDoc.update(cliente);
   }
   
+  eliminarCliente(cliente: Cliente) {
+    this.clienteDoc = this.db.doc<Cliente>(`clientes/`+cliente.id);
+    this.clienteDoc.delete();
+  }
 }
 
 
+ 

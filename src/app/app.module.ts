@@ -19,6 +19,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule, SETTINGS } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ClienteService } from './services/cliente/cliente.service';
+import { LoginService } from './services/login/login.service';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { ClienteService } from './services/cliente/cliente.service';
     
 
   ],
-  providers: [ClienteService],
+  providers: [ClienteService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
