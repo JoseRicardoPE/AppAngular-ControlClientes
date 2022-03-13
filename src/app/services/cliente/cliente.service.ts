@@ -12,7 +12,7 @@ export class ClienteService {
   clientesColeccion:AngularFirestoreCollection<Cliente>;
   clienteDoc: AngularFirestoreDocument<Cliente>;
   clientes: Observable<Cliente[]>;
-  cliente: Observable<Cliente>;
+  cliente: Observable<Cliente> | any;
 
   constructor(private db: AngularFirestore) {
     this.clientesColeccion = db.collection('clientes', ref => ref.orderBy('nombre', 'asc'));
@@ -35,4 +35,28 @@ export class ClienteService {
   agregarCliente(cliente: Cliente){
     this.clientesColeccion.add(cliente);
   }
+
+  getCliente(id: string){
+    this.clienteDoc = this.db.doc<Cliente>(`clientes/${id}`);
+    this.cliente = this.clienteDoc.snapshotChanges().pipe(
+      map( accion => {
+        if(accion.payload.exists === false){
+          return null;
+        } else {
+          const datos = accion.payload.data() as Cliente;
+          datos.id = accion.payload.id;
+          return datos;
+        }
+      })
+    );
+    return this.cliente;
+  }
+
+  modificar(cliente: Cliente) {
+    this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+    this.clienteDoc.update(cliente);
+  }
+  
 }
+
+
