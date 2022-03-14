@@ -20,6 +20,7 @@ import { AngularFirestoreModule, SETTINGS } from '@angular/fire/compat/firestore
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ClienteService } from './services/cliente/cliente.service';
 import { LoginService } from './services/login/login.service';
+import { AuthGuard } from './guardianes/auth.guard';
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import { LoginService } from './services/login/login.service';
     
 
   ],
-  providers: [ClienteService, LoginService],
+  providers: [ClienteService, LoginService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
