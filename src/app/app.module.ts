@@ -21,6 +21,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ClienteService } from './services/cliente/cliente.service';
 import { LoginService } from './services/login/login.service';
 import { AuthGuard } from './guardianes/auth.guard';
+import { ConfiguracionService } from './services/configuracion/configuracion.service';
+import { ConfiguracionGuard } from './guardianes/configuracion.guard';
 
 
 @NgModule({
@@ -46,7 +48,13 @@ import { AuthGuard } from './guardianes/auth.guard';
     
 
   ],
-  providers: [ClienteService, LoginService, AuthGuard],
+  providers: [
+    ClienteService, 
+    LoginService, 
+    AuthGuard, 
+    ConfiguracionService,
+    ConfiguracionGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
